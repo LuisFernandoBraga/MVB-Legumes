@@ -1,0 +1,24 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+
+<div class="card shadow-sm p-4">
+    <h4>Confirmar Exclusão</h4>
+    <p>
+        Tem certeza que deseja excluir o tipo 
+        <strong>{{ tipo.nome }}</strong>?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'lista_tipos_produto' %}" class="btn btn-secondary me-2">
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-danger">
+                Confirmar Exclusão
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

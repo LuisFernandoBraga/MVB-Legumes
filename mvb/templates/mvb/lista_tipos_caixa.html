@@ -1,0 +1,51 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Tipos de Caixa</h2>
+</div>
+
+<div>
+    <a class="btn btn-success mb-3" href="{% url 'criar_tipo_caixa' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
+    Nova Caixa
+    </a>
+    <a class="btn btn-primary mb-3" href="{% url 'mvb_dashboard' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
+    Voltar
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        {% if tipos %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Tamanho</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo in tipos %}
+                        <tr>
+                            <td>{{ tipo.nome }}</td>
+                            <td>{{ tipo.tamanho }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'excluir_tipo_caixa' tipo.id %}" 
+                                   class="btn btn-sm btn-danger">
+                                   Excluir
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted">Nenhum tipo cadastrado.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

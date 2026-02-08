@@ -1,0 +1,20 @@
+{% extends "mvb/base.html" %}
+{% block content %}
+
+<h2>Confirmar Exclusão</h2>
+
+<p>Tem certeza que deseja excluir este registro?</p>
+
+<ul>
+  <li><strong>Funcionário:</strong> {{ presenca.funcionario.nome }}</li>
+  <li><strong>Data:</strong> {{ presenca.data|date:"d/m/Y" }}</li>
+  <li><strong>Status:</strong> {{ presenca.get_status_display }}</li>
+</ul>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Excluir</button>
+  <a href="{% url 'lista_presencas' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+{% endblock %}

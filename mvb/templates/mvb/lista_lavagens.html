@@ -1,0 +1,141 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+<h1>Lavagens de Carretas</h1>
+
+<!--{% if request.user.is_staff %}
+  <a href="{% url 'lista_lavagens' %}" class="btn btn-primary mb-2">Nova Lavagem</a>
+{% endif %}-->
+
+
+{% if perms.mvb.add_lavagemcarreta %}
+  <a class="btn btn-success mb-3" href="{% url 'nova_lavagem' %}">
+    <i class="fas fa-plus"></i>Adicionar Lavagem
+  </a>
+{% endif %}
+
+<a class="btn btn-primary mb-3" href="{% url 'mvb_dashboard' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
+    Voltar
+</a>
+
+<form id="lavagensForm">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th style="width:40px;"></th>
+        <th>Data</th>
+        <th>Carreta</th>
+        <th>Cliente</th>
+        <th>Tipo</th>
+        <th>Tipo Caixa</th>
+        <th>Tipo Produto</th>
+        <th>Qtd Caixas</th>
+        <th>Valor/caixa</th>
+        {% if request.user.is_staff %}
+        <th>Total</th>
+        {% endif %}
+        <th>Cadastrado por</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lav in lavagens %}
+      <tr>
+        <td class="text-center">
+          <input type="radio" name="lavagem_id" value="{{ lav.id }}">
+        </td>
+        <td>{{ lav.data }}</td>
+        <td>{{ lav.carreta_ident }}</td>
+        <td>{{ lav.cliente.nome|default:"-" }}</td>
+        <td>{{ lav.get_tipo_lavagem_display }}</td>
+        <td>{{ lav.tipo_caixa.nome }}</td>
+        <td>{{ lav.tipo_produto.nome }}</td>
+        <td>{{ lav.quantidade_caixas }}</td>
+        <td>R$ {{ lav.valor_por_caixa }}</td>
+        {% if request.user.is_staff %}
+        <td>R$ {{ lav.valor_total|floatformat:2 }}</td>
+        {% endif %}
+        <td>{{ lav.criado_por.username }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8">Nenhuma lavagem registrada.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<form/>  
+
+<div class="d-flex gap-2 mt-3">
+    <button type="button" class="btn btn-primary" onclick="editarLavagem()">
+      Editar selecionado
+    </button>
+
+    <button type="button" class="btn btn-danger" onclick="excluirLavagem()">
+      Excluir selecionado
+    </button>
+  </div>
+
+</form>
+
+{% if lavagens.has_other_pages %}
+<nav>
+  <ul class="pagination justify-content-center">
+
+    {% if lavagens.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">&laquo; Primeira</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ lavagens.previous_page_number }}">Anterior</a>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">
+        Página {{ lavagens.number }} de {{ lavagens.paginator.num_pages }}
+      </span>
+    </li>
+
+    {% if lavagens.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ lavagens.next_page_number }}">Próxima</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ lavagens.paginator.num_pages }}">Última &raquo;</a>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+{% endif %}
+
+<script>
+function getLavagemSelecionado() {
+  const selecionado = document.querySelector(
+    'input[name="lavagem_id"]:checked'
+  );
+  return selecionado ? selecionado.value : null;
+}
+
+function editarLavagem() {
+  const id = getLavagemSelecionado();
+
+  if (!id) {
+    alert("Selecione um registro para editar.");
+    return;
+  }
+
+  window.location.href = `/lavagens/${id}/editar/`;
+}
+
+function excluirLavagem() {
+  const id = getLavagemSelecionado();
+
+  if (!id) {
+    alert("Selecione um registro para excluir.");
+    return;
+  }
+
+  if (confirm("Deseja realmente excluir este lançamento?")) {
+    window.location.href = `/lavagens/${id}/excluir/`;
+  }
+}
+</script>
+{% endblock %}

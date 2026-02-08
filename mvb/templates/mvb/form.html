@@ -1,0 +1,10 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+<h1>{{ titulo|default:"Form" }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-success">Salvar</button>
+    <a class="btn btn-secondary" href="javascript:history.back()">Voltar</a>
+</form>
+{% endblock %}

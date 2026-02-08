@@ -1,0 +1,126 @@
+{% extends 'mvb/base.html' %}
+{% block title %}Painel{% endblock %}
+{% block content %}
+
+
+<div class="row">
+  {% if request.user.is_staff %}
+    <div class="col-lg-4">
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>R$ {{ receita_total|floatformat:2 }}</h3>
+          <p>Receita (mês)</p>
+        </div>
+        <div class="icon"><i class="fas fa-hand-holding-dollar"></i></div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="col-lg-8">
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3>R$ {{ despesas_total|floatformat:2 }}</h3>
+            <p>Despesas (mês)</p>
+          </div>
+          <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="row">
+  <!-- Botão Financeiro -->
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-warning shadow">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Financeiro</span>
+        <a href="{% url 'lista_financeiro' %}" class="btn btn-light btn-sm mt-2">Acessar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-secondary shadow">
+      <span class="info-box-icon"><i class="fas fa-water"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Lavagens</span>
+        <a href="{% url 'lista_lavagens' %}" class="btn btn-light btn-sm mt-2">Acessar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-dark shadow">
+      <span class="info-box-icon"><i class="fas fa-user-cog"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Funcionários</span>
+        <a href="{% url 'lista_funcionarios' %}" class="btn btn-light btn-sm mt-2">Gerenciar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botão Clientes -->
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-info shadow">
+      <span class="info-box-icon"><i class="fas fa-users"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Clientes</span>
+        <a href="{% url 'lista_clientes' %}" class="btn btn-light btn-sm mt-2">Cadastrar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-info shadow">
+      <span class="info-box-icon"><i class="fas fa-box-open"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Tipos de Caixa</span>
+        <a href="{% url 'lista_tipos_caixa' %}" class="btn btn-light btn-sm mt-2">
+          Acessar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-success shadow">
+      <span class="info-box-icon"><i class="fas fa-cash-register"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Tipos de Produto</span>
+        <a href="{% url 'lista_tipos_produto' %}" class="btn btn-light btn-sm mt-2">
+          Acessar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botão Presenças -->
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box bg-warning shadow">
+      <span class="info-box-icon"><i class="fas fa-user-check"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Presenças</span>
+        <a href="{% url 'registrar_presencas' %}" class="btn btn-light btn-sm mt-2">Lançar</a>
+        <a href="{% url 'lista_presencas' %}" class="btn btn-dark btn-sm mt-2 ms-2">Visualizar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+      <div class="info-box bg-primary shadow">
+        <span class="info-box-icon"><i class="fas fa-file-alt"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Relatórios</span>
+          <a href="{% url 'relatorios' %}" class="btn btn-light btn-sm mt-2">Gerar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+
+<!--Gera imagem do gráfico no dashboard-->
+<!--<img src="{% url 'financeiro_grafico_png' %}" alt="Gráfico Financeiro" class="img-fluid">-->
+
+{% endblock %}

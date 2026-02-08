@@ -1,0 +1,124 @@
+{% extends 'mvb/base.html' %}
+{% load mvb_extras %}
+{% block content %}
+
+<h2>Resultado do Relatório</h2>
+
+<div class="mb-3">
+  <a class="btn btn-success"
+   href="{% url 'exportar_excel_filtrado' %}?{{ request.GET.urlencode }}">
+   <i class="fas fa-file-excel"></i> Exportar Excel
+  </a>
+
+  <a class="btn btn-danger"
+    href="{% url 'exportar_pdf_filtrado' %}?{{ request.GET.urlencode }}">
+    <i class="fas fa-file-pdf"></i> Exportar PDF
+  </a>
+
+  <a class="btn btn-primary"
+    href="{% url "relatorios" %}">
+    <i class="fas fa-file-voltar"></i>Voltar
+  </a>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Cliente</th>
+      <th>Tipo Lavagem</th>
+      <th>Produto</th>
+      <th>Tipo Caixa</th>
+      <th>Quantidade</th>
+      <th>Valor por Caixa (R$)</th>
+      <th>Total (R$)</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    {% for l in lavagens %}
+  <tr>
+    <td>{{ l.data }}</td>
+    <td>{{ l.cliente }}</td>
+    <td>{{ l.tipo_lavagem }}</td>
+    <td>{{ l.produto }}</td>
+    <td>{{ l.tipo_caixa }}</td>
+    <td>{{ l.quantidade }}</td>
+    <td>R$ {{ l.valor_unitario|floatformat:2 }}</td>
+    <td>R$ {{ l.subtotal|floatformat:2 }}</td>
+  </tr>
+  {% endfor %}
+
+  <!-- TOTAL GERAL -->
+  <tr class="table-dark fw-bold">
+    <td colspan="7" class="text-end">TOTAL GERAL:</td>
+    <td>R$ {{ total_geral|floatformat:2 }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<table>
+    {% if financeiros %}
+    <h3>Financeiro</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Salarios</th>
+          <th>Frete</th>
+          <th>Cafe</th>
+          <th>Almoco</th>
+          <th>Contabilidade</th>
+          <th>INSS</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in financeiros %}
+          <tr>
+            <td>{{ f.data|date:"d/m/Y" }}</td>
+            <td>R$ {{ f.salarios }}</td>
+            <td>R$ {{ f.frete }}</td>
+            <td>R$ {{ f.cafe }}</td>
+            <td>R$ {{ f.almoco }}</td>
+            <td>R$ {{ f.contabilidade }}</td>
+            <td>R$ {{ f.inss }}</td>
+            <td>R$ {{ f.total }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+
+  <p><strong>Total Financeiro:</strong> R$ {{ total_financeiro }}</p>
+{% endif %}
+</table>
+
+{% if incluir_presencas %}
+  <h3 class="mt-4">Presenças</h3>
+
+  {% if presencas %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Funcionário</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in presencas %}
+          <tr>
+            <td>{{ p.data|date:"d/m/Y" }}</td>
+            <td>{{ p.funcionario }}</td>
+            <td>{{ p.status }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-muted">Nenhuma presença encontrada.</p>
+  {% endif %}
+{% endif %}
+
+{% endblock %}

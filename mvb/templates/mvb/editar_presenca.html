@@ -1,0 +1,28 @@
+{% extends "mvb/base.html" %}
+{% block content %}
+
+<h2>Editar Presença</h2>
+
+<form method="post">
+  {% csrf_token %}
+
+  <p><strong>Funcionário:</strong> {{ presenca.funcionario.nome }}</p>
+  <p><strong>Data:</strong> {{ presenca.data|date:"d/m/Y" }}</p>
+
+  <label>Status:</label>
+  <select name="status" class="form-select">
+      <option value="P" {% if presenca.status == "P" %}selected{% endif %}>Presente</option>
+      <option value="F" {% if presenca.status == "F" %}selected{% endif %}>Falta</option>
+      <option value="O" {% if presenca.status == "O" %}selected{% endif %}>Folga</option>
+  </select>
+
+  <br>
+  <button class="btn btn-success">Salvar</button>
+</form><br>
+
+<a class="btn btn-primary"
+    href="{% url "lista_presencas" %}">
+    <i class="fas fa-file-voltar"></i>Voltar
+</a>
+
+{% endblock %}

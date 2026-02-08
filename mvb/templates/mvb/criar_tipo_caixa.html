@@ -1,0 +1,29 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+
+<h2 class="mb-4">Cadastrar Tipo de Caixa</h2>
+
+<form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        {{ form.nome }}
+    </div>
+    <div>
+        <label class="form-label">Tamanho</label>
+        {{ form.tamanho }}
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'lista_tipos_caixa' %}" class="btn btn-secondary me-2">
+            Cancelar
+        </a>
+        <button type="submit" class="btn btn-success">
+            Salvar
+        </button>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+
+<h2 class="mb-4">Gerar Relatório de Lavagens</h2>
+
+  <div>
+    <a class="btn btn-primary"
+      href="{% url "mvb_dashboard" %}">
+      <i class="fas fa-file-voltar"></i>Voltar
+    </a>
+  </div>
+
+<form method="get" action="{% url 'resultado_relatorio' %}" class="p-3 border rounded shadow-sm bg-light">
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Incluir no relatório</label>
+
+    <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" name="incluir_lavagens" value="1" checked>
+    <label class="form-check-label">Incluir Lavagens</label>
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" name="incluir_financeiro" value="1">
+    <label class="form-check-label">Incluir Financeiro</label>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" name="incluir_presencas" value="1">
+    <label class="form-check-label">
+      Incluir Presenças
+    </label>
+  </div>
+
+    <small class="text-muted">
+      Desmarque se desejar gerar relatório apenas de um dos módulos.
+    </small>
+  </div>
+
+  <!-- TIPO DE RELATÓRIO (opcional) -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Tipo de Relatório (opcional)</label>
+    <select name="tipo" class="form-select">
+      <option value="">-- Todos --</option>
+      <option value="sujo">Sujo</option>
+      <option value="carga">Por Carga</option>
+      <option value="completo">Completo</option>
+    </select>
+    <small class="text-muted">Selecione apenas se desejar filtrar por tipo de lavagem.</small>
+  </div>
+
+  <!-- PERÍODO -->
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label fw-bold">Data Início (opcional)</label>
+      <input type="date" name="data_inicio" class="form-control">
+    </div>
+
+    <div class="col">
+      <label class="form-label fw-bold">Data Fim (opcional)</label>
+      <input type="date" name="data_fim" class="form-control">
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <small class="text-muted">Preencha um intervalo ou ignore se quiser usar outro tipo de filtro.</small>
+  </div>
+
+  <!-- DATA ÚNICA -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Data específica (opcional)</label>
+    <input type="date" name="data" class="form-control">
+  </div>
+
+  <!-- CLIENTE -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Cliente / Funcionário (opcional)</label>
+    <select name="cliente" class="form-select">
+      <option value="">-- Todos --</option>
+      {% for c in clientes %}
+      <option value="{{ c.nome }}">{{ c.nome }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- BOTÕES -->
+  <div class="d-flex gap-2 mt-4">
+    <button class="btn btn-primary">
+      <i class="fas fa-search"></i> Gerar Relatório
+    </button>
+
+    <a href="{% url 'relatorios' %}" class="btn btn-secondary">
+      <i class="fas fa-eraser"></i> Limpar Filtros
+    </a>
+  </div>
+
+</form>
+
+{% endblock %}

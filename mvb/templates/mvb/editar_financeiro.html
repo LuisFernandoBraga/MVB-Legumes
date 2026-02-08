@@ -1,0 +1,76 @@
+{% extends "mvb/base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Editar Lançamento Financeiro</h2>
+
+<form method="post" class="p-4 border rounded shadow-sm bg-light">
+  {% csrf_token %}
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label class="form-label fw-bold">Data</label>
+      {{ form.data }}
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label fw-bold">Ano</label>
+      {{ form.ano }}
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label fw-bold">Mês</label>
+      {{ form.mes }}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label">Salários</label>
+      {{ form.salario_total_funcionarios }}
+    </div>
+
+    <div class="col">
+      <label class="form-label">Frete</label>
+      {{ form.frete }}
+    </div>
+
+    <div class="col">
+      <label class="form-label">Café</label>
+      {{ form.refeicao_cafe }}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label">Almoço</label>
+      {{ form.refeicao_almoco }}
+    </div>
+
+    <div class="col">
+      <label class="form-label">Contabilidade</label>
+      {{ form.contabilidade }}
+    </div>
+
+    <div class="col">
+      <label class="form-label">INSS</label>
+      {{ form.inss }}
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>Total:</strong> Calculado automaticamente ao salvar.
+  </div>
+
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn btn-primary">
+      Salvar Alterações
+    </button>
+
+    <a href="{% url 'lista_financeiro' %}" class="btn btn-secondary">
+      Cancelar
+    </a>
+  </div>
+
+</form>
+
+{% endblock %}

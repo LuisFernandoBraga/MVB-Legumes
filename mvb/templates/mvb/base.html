@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}MVB - Painel{% endblock %}</title>
+
+  <!-- AdminLTE & Bootstrap via CDN (CSS) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+  <style>
+    body { font-family: Inter, Arial, sans-serif; }
+    .content-wrapper { padding: 1.5rem; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'mvb_dashboard' %}" class="nav-link">Painel</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ms-auto">
+      {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <span class="nav-link">Bem-vindo, <strong>{{ request.user.first_name|default:request.user.username }}</strong></span>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'logout' %}" class="nav-link">Sair <i class="fas fa-sign-out-alt"></i></a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a href="{% url 'login' %}" class="nav-link">Entrar</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="{% url 'mvb_dashboard' %}" class="brand-link">
+      <span class="brand-text font-weight-light ms-3">MVB - Gestão</span>
+    </a>
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column"
+          data-widget="treeview"
+          role="menu"
+          data-accordion="false">
+          <li class="nav-item"><a href="{% url 'mvb_dashboard' %}" class="nav-link"><i class="nav-icon fas fa-chart-line"></i><p>Dashboard</p></a></li>
+          <li class="nav-item has-treeview">
+            <a href="{% url 'lista_funcionarios' %}" class="nav-link"><i class="nav-icon fas fa-users"></i><p>Funcionários <i class="right fas fa-angle-left"></i></p></a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="{% url 'lista_funcionarios' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Listar</p></a></li>
+              {% if request.user.is_staff %}
+              <li class="nav-item"><a href="{% url 'novo_funcionario' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Novo</p></a></li>
+              {% endif %}
+            </ul>
+          </li>
+          <li class="nav-item"><a href="{% url 'lista_lavagens' %}" class="nav-link"><i class="nav-icon fas fa-shipping-fast"></i><p>Lavagens</p></a></li>
+          {% if request.user.is_staff %}
+          <li class="nav-item"><a href="{% url 'relatorio_periodo' 'mensal' %}" class="nav-link"><i class="nav-icon fas fa-file-alt"></i><p>Relatórios</p></a></li>
+          <li class="nav-item"><a href="{% url 'lista_pedidos_pendentes' %}" class="nav-link"><i class="nav-icon fas fa-user-check"></i><p>Aprovar Usuários</p></a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="container-fluid">
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="alert alert-{{ msg.tags }} alert-dismissible">
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              {{ msg }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+      </div>
+    </section>
+  </div>
+
+  <footer class="main-footer">
+    <div class="float-end d-none d-sm-inline">MVB</div>
+    <strong>© {{ now.year }}</strong>
+  </footer>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

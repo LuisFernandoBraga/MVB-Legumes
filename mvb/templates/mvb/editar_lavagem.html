@@ -1,0 +1,70 @@
+{% extends "mvb/base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Editar Lavagem de Carreta</h2>
+
+<form method="post" class="p-4 border rounded bg-light">
+  {% csrf_token %}
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label class="form-label fw-bold">Data</label>
+      {{ form.data }}
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label fw-bold">Carreta</label>
+      {{ form.carreta_ident }}
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label fw-bold">Cliente</label>
+      {{ form.cliente }}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label class="form-label">Tipo de Lavagem</label>
+      {{ form.tipo_lavagem }}
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Tipo Caixa</label>
+      {{ form.tipo_caixa }}
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Tipo Produto</label>
+      {{ form.tipo_produto }}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Quantidade de Caixas</label>
+      {{ form.quantidade_caixas }}
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Valor por Caixa</label>
+      {{ form.valor_por_caixa }}
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>Total:</strong> calculado automaticamente ao salvar.
+  </div>
+
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn btn-primary">
+      Salvar Alterações
+    </button>
+
+    <a href="{% url 'lista_lavagens' %}" class="btn btn-secondary">
+      Cancelar
+    </a>
+  </div>
+</form>
+
+{% endblock %}

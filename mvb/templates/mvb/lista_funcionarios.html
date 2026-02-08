@@ -1,0 +1,40 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+<h1>Funcionários</h1>
+<!--{% if request.user.is_staff %}
+  <a class="btn btn-sm btn-primary mb-2" href="{% url 'novo_funcionario' %}">Novo Funcionário</a>
+{% endif %}-->
+
+{% if perms.mvb.add_funcionario %}
+  <a class="btn btn-success mb-3" href="{% url 'novo_funcionario' %}">+ Novo Funcionário</a>
+{% endif %}
+
+{% if perms.mvb.add_funcionario %}
+  <a class="btn btn-primary mb-3" href="{% url 'mvb_dashboard' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
+    Voltar
+  </a>
+{% endif %}
+
+<table class="table table-bordered">
+  <tr><th>Nome</th><th>CPF</th><th>Função</th><th>Telefone</th><th>Ações</th></tr>
+  {% for f in funcionarios %}
+  <tr>
+    <td>{{ f.nome }}</td>
+    <td>{{ f.cpf }}</td>
+    <td>{{ f.funcao.nome }}</td>
+    <td>{{ f.telefone }}</td>
+    <td>
+      {% if request.user.is_staff %}
+        <a class="btn btn-sm btn-outline-primary" href="{% url 'editar_funcionario' f.pk %}">Editar</a>
+        <form method="post" action="{% url 'deletar_funcionario' f.pk %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Excluir?')">Excluir</button>
+        </form>
+      {% else %}
+        -
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

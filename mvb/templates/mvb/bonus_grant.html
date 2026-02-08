@@ -1,0 +1,59 @@
+{% extends 'mvb/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+<h2 class="mb-4">Concessão de Bônus / Cestas</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-dark">
+                <th>Funcionário</th>
+                <th>Presenças (Semana)</th>
+                <th>Faltas</th>
+                <th>Folgas</th>
+                <th>Bônus Semanal</th>
+                <th>Bônus Mensal (Cesta)</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in dados %}
+            <tr>
+                <td>{{ item.funcionario.nome }}</td>
+                <td>{{ item.pres_sem }}</td>
+                <td><span class="text-danger fw-bold">{{ item.faltas_sem }}</span></td>
+                <td>{{ item.folgas_sem }}</td>
+
+                <td>
+                    {% if item.elegivel_sem %}
+                        <input type="checkbox" name="sem_{{ item.funcionario.id }}">
+                        <span class="badge bg-success">Elegível</span>
+                    {% else %}
+                        <span class="badge bg-danger">Não elegível</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if item.elegivel_mes %}
+                        <input type="checkbox" name="mes_{{ item.funcionario.id }}">
+                        <span class="badge bg-success">Elegível</span>
+                    {% else %}
+                        <span class="badge bg-danger">Não elegível</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="btn btn-success mt-3">Salvar</button><br><br>
+</form>
+<div>
+    <a class="btn btn-primary mb-3" href="{% url 'mvb_dashboard' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
+    Voltar
+    </a>
+</div>
+{% endblock %}

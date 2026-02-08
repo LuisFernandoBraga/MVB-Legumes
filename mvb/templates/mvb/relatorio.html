@@ -1,0 +1,22 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+<h1>Relatório ({{ periodo }})</h1>
+<p>Período: {{ dt_inicio }} até {{ dt_fim }}</p>
+
+<h2>Receitas</h2>
+<ul>
+    <li>Receita - Carretas: R$ {{ receita_carretas|floatformat:2 }}</li>
+    <li><strong>Receita Total: R$ {{ receita_total|floatformat:2 }}</strong></li>
+</ul>
+
+<h2>Despesas</h2>
+<p>Despesas Total (apontadas no Financeiro): R$ {{ despesas_total|floatformat:2 }}</p>
+
+<h2>Resultado</h2>
+{% if lucro >= 0 %}
+    <p><strong>Lucro: R$ {{ lucro|floatformat:2 }}</strong></p>
+{% else %}
+    <p style="color:red;"><strong>Prejuízo: R$ {{ lucro|floatformat:2 }}</strong></p>
+{% endif %}
+<a class="btn btn-secondary" href="javascript:history.back()">Voltar</a>
+{% endblock %}

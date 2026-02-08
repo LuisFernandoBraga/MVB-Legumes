@@ -1,0 +1,59 @@
+{% extends "mvb/base.html" %}
+{% block content %}
+
+<h2>Registro de Presenças por Data</h2>
+
+<a class="btn btn-primary mb-3" href="{% url 'mvb_dashboard' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
+    Voltar
+</a>
+
+<form method="get" class="mb-4">
+    <label class="form-label">Selecione uma data:</label>
+    <input type="date" name="data" class="form-control" value="{{ data }}">
+    <button class="btn btn-primary mt-2">Carregar Funcionários</button>
+</form>
+
+{% if data %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="data" value="{{ data }}">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Funcionário</th>
+                <th>Presente</th>
+                <th>Falta</th>
+                <th>Folga</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in funcionarios %}
+            <tr>
+                <td>{{ f.nome }}</td>
+
+                <td>
+                    <input type="radio" name="status_{{ f.id }}" value="P"
+                    {% if presencas_dict.f.id == "P" %}checked{% endif %}>
+                </td>
+
+                <td>
+                    <input type="radio" name="status_{{ f.id }}" value="F"
+                    {% if presencas_dict.f.id == "F" %}checked{% endif %}>
+                </td>
+
+                <td>
+                    <input type="radio" name="status_{{ f.id }}" value="O"
+                    {% if presencas_dict.f.id == "O" %}checked{% endif %}>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="btn btn-success">Salvar Presenças</button>
+</form>
+
+{% endif %}
+
+{% endblock %}

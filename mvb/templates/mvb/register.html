@@ -1,0 +1,8 @@
+{% extends 'mvb/base.html' %}
+{% block content %}
+<h2>Solicitar acesso</h2>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success">Enviar solicitação</button>
+</form>
+{% endblock %}
