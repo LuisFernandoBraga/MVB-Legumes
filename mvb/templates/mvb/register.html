@@ -3,6 +3,9 @@
 <h2>Solicitar acesso</h2>
 <form method="post">{% csrf_token %}
   {{ form.as_p }}
-  <button class="btn btn-success">Enviar solicitação</button>
+  <button class="btn btn-success mb-3">Enviar solicitação</button>
+  <a class="btn btn-primary mb-3" href="{% url 'login' %}">
+    Voltar
+  </a>
 </form>
 {% endblock %}

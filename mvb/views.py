@@ -237,7 +237,7 @@ def excluir_tipo_produto(request, pk):
 def lista_lavagens(request):
     lavagens_list = LavagemCarreta.objects.select_related('tipo_caixa','tipo_produto').all().order_by('-data')
 
-    paginator = Paginator(lavagens_list, 10)  # 10 por página
+    paginator = Paginator(lavagens_list, 6)  # 10 por página
     page_number = request.GET.get('page')
     lavagens = paginator.get_page(page_number)
 

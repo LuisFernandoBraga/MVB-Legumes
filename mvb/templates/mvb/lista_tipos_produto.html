@@ -7,7 +7,7 @@
 
 <div>
     <a class="btn btn-success mb-3" href="{% url 'criar_tipo_produto' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
-    Novo Produto
+    <i class="fas fa-plus"></i>Novo Produto
     </a>
     <a class="btn btn-primary mb-3" href="{% url 'mvb_dashboard' %}?tipo={{ tipo }}&data={{ request.GET.data }}&cliente={{ request.GET.cliente }}">
     Voltar
@@ -21,8 +21,10 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>Nome do Produto</th>
+                        {% if request.user.is_staff %}
                         <th class="text-end">Ações</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -30,10 +32,12 @@
                         <tr>
                             <td>{{ tipo.nome }}</td>
                             <td class="text-end">
+                                {% if request.user.is_staff %}
                                 <a href="{% url 'excluir_tipo_produto' tipo.id %}" 
                                    class="btn btn-sm btn-danger">
                                    Excluir
                                 </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
