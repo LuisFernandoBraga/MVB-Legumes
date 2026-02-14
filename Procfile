@@ -1,1 +1,1 @@
-web: gunicorn mvb.wsgi
+web: gunicorn project.wsgi
