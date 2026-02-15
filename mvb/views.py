@@ -26,6 +26,8 @@ import openpyxl
 from openpyxl.utils import get_column_letter
 import pandas as pd
 import io
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import base64
 from weasyprint import HTML
